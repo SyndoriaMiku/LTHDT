@@ -5,4 +5,28 @@ from . import models
 class CustomerUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = 
+        fields = ['username', 'password']
+        widgets = {
+            'password' : forms.PasswordInput()
+        }
+        
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model=models.Customer
+        fields = ['phone']
+        
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = models.Item
+        fields=['name', 'number', 'image', 'description', 'category','price']
+        
+class AddressForm(forms.Form):
+    Email = forms.EmailField()
+    Phone = forms.CharField();
+    Address = forms.CharField(max_length=500)
+    
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = models.Orders
+        field=['status']
+        

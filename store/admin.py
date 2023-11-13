@@ -4,8 +4,8 @@ from .models import Item, Customer, Orders
 # Register your models here.
 
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('name','phone')
-    search_fields = ['name']
+    list_display = ('user','phone')
+    search_fields = ['user']
 admin.site.register(Customer, CustomerAdmin)
 
 class ItemAdmin(admin.ModelAdmin):

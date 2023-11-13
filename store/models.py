@@ -12,29 +12,24 @@ STATUS = (
     ('Pending', 'Pending'),
     ('Confirmed','Order Confirm'),
     ('Delivered', 'Order Delivered'),
-    ('Cancel', 'Order Cancel')
+    ('Canceled', 'Order Cancel')
 )
-
-
-
-
 
 class Item(models.Model):
     name = models.CharField(max_length=200)
     number = models.CharField(max_length=10)
     image = models.ImageField(upload_to='produce_image/', null=True, blank=True)
-    description = models.TextField()
+    description = models.TextField(null=True)
     category = models.CharField(choices=CATEGORY, max_length=5)
     price = models.FloatField()
     def __str__(self):
         return self.name
     
 class Customer(models.Model):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    name = models.CharField(max_length=100)
+    user=models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=50)
     def get_id(self):
-        return self.uuid
+        return self.id
     def __str__(self):
         return self.name
     
