@@ -1,4 +1,4 @@
-{% extends 'ecom/homebase.html' %}
+{% extends 'store/homebase.html' %}
 {% load static %}
 {% block content %}
 
@@ -406,14 +406,14 @@ img {
   </div>
 </div>
 
-{%if products%}
+{%if items%}
 <h3 style="text-align:center; color:#3E454C;">{{word}}</h3>
 <br>
 
-<!-- products data starttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt -->
+<!-- data start -->
   <div class="row">
 
-      {% for p in products %}
+      {% for p in items %}
       <!-- card1 -->
       <div class="column">
       <div class="container page-wrapper" style="width: 450px;">
@@ -421,7 +421,7 @@ img {
           <div class="row">
             <div class="el-wrapper">
               <div class="box-up">
-                <img class="img" src="{% static p.product_image.url %}" alt="product pic" height="300px" width="300px">
+                <img class="img" src="{% static p.image.url %}" alt="product pic" height="300px" width="300px">
                 <div class="img-info">
                   <div class="info-inner">
                     <span style="background-color:#3e454c; color:fbfbfb;"class="p-company">{{p.name}}</span>
@@ -437,7 +437,7 @@ img {
                 </div>
 
                 <a class="cart" href="{% url 'add-to-cart' p.id  %}">
-                  <span class="price">${{p.price}}</span>
+                  <span class="price">{{p.price}} VND</span>
                   <span class="add-to-cart">
                     <span class="txt"><i class="fa fa-shopping-cart"></i> Add To Cart</span>
                   </span>
@@ -458,7 +458,7 @@ img {
 {% endif %}
   {% endfor %}
 </div>
-<!-- products data enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
+<!-- products data end -->
 {%else%}
 <h3 style="text-align:center; color:#3E454C;">No Search Found</h3>
 {%endif%}
@@ -473,9 +473,5 @@ img {
 <br><br><br>
 <br><br><br><br><br><br><br><br><br><br><br><br>
 
-
-<!--
-developed By : sumit kumar
--->
 
 {% endblock content %}

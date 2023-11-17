@@ -1,4 +1,4 @@
-{% extends 'ecom/homebase.html' %}
+{% extends 'store/homebase.html' %}
 {% load static %}
 {% block content %}
 
@@ -83,13 +83,13 @@ written By : sumit kumar
 
         </tr>
       </thead>
-      {% for p in products %}
+      {% for p in items %}
   {% if p %}
 
       <tr>
         <td> {{p.name}}</td>
-        <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="50px" width="50px" /></td>
-        <td>$ {{p.price}}</td>
+        <td> <img src="{% static p.image.url %}" alt="Profile Pic" height="50px" width="50px" /></td>
+        <td> {{p.price}}</td>
         <td>{{p.description}}</td>
 
         <td><a class="btn btn-danger btn-xs" href="{% url 'remove-from-cart' p.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
@@ -97,7 +97,7 @@ written By : sumit kumar
       </tr>
       {%else%}
       <br><br><br>
-      <h1>no products</h1>
+      <h1>no item</h1>
       {% endif %}
       {% endfor %}
     </table>
@@ -105,13 +105,10 @@ written By : sumit kumar
 </div>
 <br><br><br>
 <div style="text-align: center;">
-  <button class="btn btn-danger btn-lg">Total ${{total}}</button>
+  <button class="btn btn-danger btn-lg">Total {{total}} VND</button>
   <a href="/customer-address"><button class="btn btn-success btn-lg" ><span>Purchase </span></button></a>
 </div>
 
 
 <br><br><br><br><br>
-<!--
-developed By : sumit kumar
--->
 {% endblock content %}

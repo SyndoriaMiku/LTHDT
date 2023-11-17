@@ -50,22 +50,22 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Image</th>
+          <th>Number</th>
           <th>Price</th>
           <th>Description</th>
           <th>Actions</th>
         </tr>
       </thead>
-      {% for p in products %}
+      {% for p in items %}
   {% if p %}
 
       <tr>
         <td> {{p.name}}</td>
-        <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="86px" width="59px" /></td>
+        <td> {{p.number}}</td>
         <td>{{p.price}}</td>
         <td>{{p.description}}</td>
-        <td><a class="btn btn-primary btn-xs" href="{% url 'update-product' p.id  %}"><span class="glyphicon glyphicon-edit"></span></a>
-          <a class="btn btn-danger btn-xs" href="{% url 'delete-product' p.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
+        <td><a class="btn btn-primary btn-xs" href="{% url 'update-item' p.id  %}"><span class="glyphicon glyphicon-edit"></span></a>
+          <a class="btn btn-danger btn-xs" href="{% url 'delete-item' p.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
 
       </tr>
       {%else%}
@@ -77,7 +77,7 @@
   </div>
 </div>
 <!-- add product floating button -->
-<a href="/admin-add-product" class="float">
+<a href="/admin-add-item" class="float">
 <i class="fa fa-plus my-float"></i>
 </a>
 

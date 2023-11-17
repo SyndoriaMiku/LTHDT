@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<title>Simple E-commerce</title>
+<title>YDA Shop</title>
 
 <style>
 body {
@@ -249,7 +249,7 @@ body {
 </head>
 <body>
   {%if request.user.is_authenticated%}
-    {% include "ecom/customer_navbar.html" %}
+    {% include "store/customer_navbar.html" %}
   {%else%}
   <div id="navbar">
     <div class="container">
@@ -262,14 +262,12 @@ body {
                   </ul>
               </li>
 
-                <li class="upper-links"><a class="links" href="/adminclick">Admin</a></li>
-                <li class="upper-links"><a class="links" href="/aboutus">About Us</a></li>
-                
+                <li class="upper-links"><a class="links" href="/admin">Admin</a></li>                
             </ul>
         </div>
         <div class="row row2">
             <div class="col-sm-3">
-                <h2 style="margin:0px;"><a style="text-decoration:none; color:white;" href="/"><span class="largenav">Simple Ecommerce </span></a></h2>
+                <h2 style="margin:0px;"><a style="text-decoration:none; color:white;" href="/"><span class="largenav">YDA Shop </span></a></h2>
             </div>
 
 
@@ -311,16 +309,7 @@ body {
   </p>
 
   <br>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12 col-sm-12">
-        <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
-          <p>Ecommerce Site in Python using Django Framework<br>
-            &copy; 2022 Developed By Sumit Kumar </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% include "store/footer.html" %}
 </footer>
 <script>
 $(document).ready(function(){

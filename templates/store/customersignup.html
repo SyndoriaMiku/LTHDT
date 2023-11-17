@@ -3,7 +3,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Simple E-commerce</title>
+    <title>YDA Shop</title>
 
 
 
@@ -146,7 +146,7 @@ a.socialIcon:hover,
     </style>
   </head>
   <body>
-    {% include "ecom/navbar.html" %}
+    {% include "store/navbar.html" %}
     <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -154,14 +154,9 @@ a.socialIcon:hover,
                 <form class="box" method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                     <h1>Customer Sign Up</h1>
-                    
-                      {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
-                        {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
                           {% render_field userForm.username class="form-control" placeholder="Username" %}
                             {% render_field userForm.password class="form-control" placeholder="Password" %}
-                              {% render_field customerForm.address class="form-control" placeholder="Address" %}
-                                {% render_field customerForm.mobile class="form-control" placeholder="Contact" %}
-                                  {% render_field customerForm.profile_pic class="form-control" placeholder="Profile pic" %}
+                                {% render_field customerForm.phone class="form-control" placeholder="Phone Number" %}
                   
                      <input type="submit" name="" value="Create">
 

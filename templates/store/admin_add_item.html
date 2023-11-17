@@ -55,29 +55,37 @@
   <div class="container register-form">
     <div class="form">
       <div class="note">
-        <p>ADD PRODUCTS</p>
+        <p>ADD ITEMS</p>
       </div>
       <div class="form-content">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="">Product Name</label>
-              {% render_field productForm.name class="form-control" placeholder="Product Name" %}
+              <label for="">Item Name</label>
+              {% render_field itemForm.name class="form-control" placeholder="Item Name" %}
+            </div>
+            <div class="form-group">
+              <label for="">Item Number</label>
+              {% render_field itemForm.number class="form-control" placeholder="Item Number" %}
             </div>
             <div class="form-group">
               <label for="">Short Description</label>
-              {% render_field productForm.description class="form-control" placeholder="Description" %}
+              {% render_field itemForm.description class="form-control" placeholder="Description" %}
             </div>
 
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="">Product Price (VND)</label>
-              {% render_field productForm.price class="form-control" placeholder="52" %}
+              <label for="">Category</label>
+              {% render_field itemForm.category class="form-control" %}
             </div>
             <div class="form-group">
-              <label for="">Product Image</label>
-              {% render_field productForm.product_image class="form-control" placeholder="product_image" %}
+              <label for="">Item Price (VND)</label>
+              {% render_field itemForm.price class="form-control" placeholder="VND" %}
+            </div>
+            <div class="form-group">
+              <label for="">Item Image</label>
+              {% render_field itemForm.image class="form-control" placeholder="Item_image" %}
             </div>
 
 

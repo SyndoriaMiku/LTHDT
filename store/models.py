@@ -18,30 +18,31 @@ STATUS = (
 class Item(models.Model):
     name = models.CharField(max_length=200)
     number = models.CharField(max_length=10)
-    image = models.ImageField(upload_to='produce_image/', null=True, blank=True)
+    image = models.ImageField(upload_to='produce_image/', null=True, blank=True, default='produce_image/nopng.jpg')
     description = models.TextField(null=True)
     category = models.CharField(choices=CATEGORY, max_length=5)
-    price = models.FloatField()
+    price = models.PositiveBigIntegerField()
     def __str__(self):
         return self.name
     
 class Customer(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=50)
+    phone = models.CharField(max_length=50, null=True)
+    @property
     def get_id(self):
-        return self.id
+        return self.user.id
     def __str__(self):
         return self.name
     
-class Orders(models.Model):
+class Order(models.Model):
 
     
-    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, null=True)
-    item = models.ForeignKey('Item', on_delete=models.CASCADE, null=True)
-    address = models.CharField(max_length=200, null=True)
-    phone = models.CharField(max_length=50, null=True)
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    item = models.ForeignKey('Item', on_delete=models.CASCADE)
+    address = models.CharField(max_length=200)
+    phone = models.CharField(max_length=50)
     date = models.DateField(auto_now_add=True, null=True)
-    status = models.CharField(max_length=50, null=True, choices=STATUS)
+    status = models.CharField(max_length=50, choices=STATUS)
     
         
     

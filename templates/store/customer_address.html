@@ -1,4 +1,4 @@
-{% extends 'ecom/customer_base.html' %}
+{% extends 'store/customer_base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
@@ -93,13 +93,8 @@ select{
   {% csrf_token %}
 <ul class="form-style-1">
     <li>
-        <label>Email <span class="required">*</span></label>
-        {% render_field addressForm.Email class="field-long" placeholder="Email" %}
-
-    </li>
-    <li>
         <label>Mobile <span class="required">*</span></label>
-        {% render_field addressForm.Mobile class="field-long" placeholder="Mobile" %}
+        {% render_field addressForm.Mobile class="field-long" placeholder="MPhone" %}
     </li>
 
     <li>

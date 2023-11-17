@@ -27,6 +27,6 @@ class AddressForm(forms.Form):
     
 class OrderForm(forms.ModelForm):
     class Meta:
-        model = models.Orders
-        field=['status']
+        model = models.Order
+        fields=['status']
         

@@ -3,6 +3,9 @@ from . import models, forms
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 # Create your views here.
 
@@ -35,7 +38,7 @@ def customer_signup_view(request):
             user = userForm.save()
             user.set_password(user.password)
             user.save()
-            customer = customerForm.save()
+            customer = customerForm.save(commit=False)
             customer.user=user
             customer.save()
             my_customer_group = Group.objects.get_or_create(name='CUSTOMER')
@@ -44,7 +47,7 @@ def customer_signup_view(request):
     return render(request,"store/customersignup.html", context=mydict)
 
 def is_customer(user):
-    return user.groups.filter(name="CUSTOMER").exist()
+    return user.groups.filter(name="CUSTOMER").exists()
 
 def afterlogin_view(request):
     if is_customer(request.user):
@@ -59,11 +62,11 @@ def admin_dashboard_view(request):
     #
     customercount = models.Customer.objects.all().count()
     itemcount = models.Item.objects.all().count()
-    ordercount = models.Order.object.all().count()
+    ordercount = models.Order.objects.all().count()
     
     
     #for Order
-    orders = models.Orders.objects.all()
+    orders = models.Order.objects.all()
     ordered_items = []
     ordered_bys = []
     for order in orders:
@@ -154,7 +157,7 @@ def update_item_view(request, pk):
 
 @login_required(login_url='adminlogin')
 def admin_view_booking_view(request):
-    orders = models.Orders.objects.all()
+    orders = models.Order.objects.all()
     ordered_items = []
     ordered_bys = []
     for order in orders:
@@ -165,14 +168,14 @@ def admin_view_booking_view(request):
     return render(request, 'store/admin_view_booking.html', {'data': zip(ordered_items, ordered_bys, orders)})
 
 @login_required(login_url='adminlogin')
-def delete_booking_view(request, pk):
-    order = models.Orders.objects.get(id=pk)
+def delete_order_view(request, pk):
+    order = models.Order.objects.get(id=pk)
     order.delete()
     return redirect('admin-view-booking')
 
 @login_required(login_url='adminlogin')
 def update_order_view(request, pk):
-    order = models.Orders.objects.get(id=pk)
+    order = models.Order.objects.get(id=pk)
     orderForm = forms.OrderForm(instance=order)
     if request.method == 'POST':
         orderForm = forms.OrderForm(request.POST, instance=order)
@@ -225,7 +228,7 @@ def add_to_cart_view(request, pk):
         response.set_cookie('item_ids', pk)
     
     item = models.Item.objects.get(id=pk)
-    message.info(request, item.name + " added to cart")
+    messages.info(request, item.name + " added to cart")
     
     return response
 
@@ -265,7 +268,7 @@ def remove_from_cart_view(request, pk):
         #removing item id from cookies
         total=0
         if 'item_ids' in request.COOKIES:
-            'item_ids' = request.COOKIES['item_ids']
+            item_ids = request.COOKIES['item_ids']
             item_id_in_cart = item_ids.split('|')
             item_id_in_cart = list(set(item_id_in_cart))
             item_id_in_cart.remove(str(pk))
@@ -278,7 +281,7 @@ def remove_from_cart_view(request, pk):
             #update cookies after removing item
             value=""
             for i in range(len(item_id_in_cart)):
-                if i = 0:
+                if i == 0:
                     value = value + item_id_in_cart[0]
                 else:
                     value = value + "|" + item_id_in_cart[i]
@@ -374,7 +377,7 @@ def payment_success_view(request):
         address = request.COOKIES['address']
         
     for item in items:
-        models.Orders.objects.get_or_create(customer=customer, item=item, email=email, phone=phone, address=address, status='Pending')
+        models.Order.objects.get_or_create(customer=customer, item=item, email=email, phone=phone, address=address, status='Pending')
     
     #delete cookies after order placed
     response = render(request, 'store/payment_success.html')
@@ -389,7 +392,7 @@ def payment_success_view(request):
 @user_passes_test(is_customer)
 def my_orders_view(request):
     customer = models.Customer.objects.get(user_id=request.user.id)
-    orders = models.Orders.objects.all().filter(customer_id=customer)
+    orders = models.Order.objects.all().filter(customer_id=customer)
     ordered_items = []
     for order in orders:
         ordered_item = models.Item.objects.all().filter(id=order.item.id)

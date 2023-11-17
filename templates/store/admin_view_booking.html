@@ -1,4 +1,4 @@
-{% extends 'ecom/admin_base.html' %}
+{% extends 'store/admin_base.html' %}
 {% load static %}
 {% block content %}
 
@@ -22,10 +22,7 @@
     }
   </style>
 </head>
-<!--
-written By : sumit kumar
-facebook : fb.com/sumit.luv
--->
+
 <div class="container">
   <div class="panel panel-danger">
     <div class="panel-heading">
@@ -44,7 +41,7 @@ facebook : fb.com/sumit.luv
         </tr>
       </thead>
       <!-- p for product, c for customer-->
-      {% for product,customer,order in data %}
+      {% for item,customer,order in data %}
       <tr>
         {% for c in customer %}
         <td> {{c.get_name}}</td>
@@ -52,7 +49,7 @@ facebook : fb.com/sumit.luv
         <td>{{order.address}}</td>
 
         {% endfor %}
-        {% for p in product %}
+        {% for p in item %}
         <td> {{p.name}}</td>
         <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
         <td>{{order.status}}</td>
@@ -68,7 +65,4 @@ facebook : fb.com/sumit.luv
     </table>
   </div>
 </div>
-<!--
-developed By : sumit kumar
--->
 {% endblock content %}

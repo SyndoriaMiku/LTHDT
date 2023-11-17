@@ -1,4 +1,4 @@
-{% extends 'ecom/customer_base.html' %}
+{% extends 'store/customer_base.html' %}
 {% load static %}
 {% block content %}
 
@@ -371,16 +371,16 @@ img {
 }
 
 .slide-1 {
-  background-image: url("{% static 'images/ecom-banner1.jpg' %}");
+  background-image: url("{% static 'images/store-banner1.jpg' %}");
 }
 .slide-2 {
-  background-image: url("{% static 'images/ecom-banner4.jpg' %}");
+  background-image: url("{% static 'images/store-banner4.jpg' %}");
 }
 .slide-3 {
-  background-image: url("{% static 'images/ecom-banner1.png' %}");
+  background-image: url("{% static 'images/store-banner1.png' %}");
 }
 .slide-4 {
-  background-image: url("{% static 'images/ecom-banner3.jpg' %}");
+  background-image: url("{% static 'images/store-banner3.jpg' %}");
 }
   </style>
 
@@ -409,14 +409,14 @@ img {
 </div>
 
 
-  {%if products%}
+  {%if items%}
   <h3 style="text-align:center; color:#3E454C;">{{word}}</h3>
   <br>
   
-  <!-- products data start -->
+  <!-- items data start -->
   <div class="row">
 
-      {% for p in products %}
+      {% for p in items %}
       <!-- card1 -->
       <div class="column">
       <div class="container page-wrapper" style="width: 450px;">
@@ -424,7 +424,7 @@ img {
           <div class="row">
             <div class="el-wrapper">
               <div class="box-up">
-                <img class="img" src="{% static p.product_image.url %}" alt="product pic" height="300px" width="300px">
+                <img class="img" src="{% static p.image.url %}" alt="item pic" height="300px" width="300px">
                 <div class="img-info">
                   <div class="info-inner">
                     <span style="background-color:#3e454c; color:fbfbfb;"class="p-company">{{p.name}}</span>
@@ -440,7 +440,7 @@ img {
                 </div>
 
                 <a class="cart" href="{% url 'add-to-cart' p.id  %}">
-                  <span class="price">${{p.price}}</span>
+                  <span class="price">{{p.price}} VND</span>
                   <span class="add-to-cart">
                     <span class="txt"><i class="fa fa-shopping-cart"></i> Add To Cart</span>
                   </span>
@@ -460,7 +460,7 @@ img {
 
   {% endfor %}
 </div>
-<!-- products data end -->
+<!-- items data end -->
 
 
 {%else%}
