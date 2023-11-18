@@ -330,7 +330,6 @@ def customer_address_view(request):
         addressForm = forms.AddressForm(request.POST)
         if addressForm.is_valid():
             #getting address from user here
-            email = addressForm.cleaned_data['Email']
             phone = addressForm.cleaned_data['Phone']
             address = addressForm.cleaned_data['Address']
             #showing total price
@@ -344,11 +343,10 @@ def customer_address_view(request):
                         total = total + item.price
                         
             response = render(request, 'store/payment.html', {'total' : total})
-            response.set_cookie('email', email)
             response.set_cookie('phone', phone)
             response.set_cookie('address', address)
             return response
-        return render(request, 'store/customer_address.html', {'addressForm': addressForm, 'item_in_cart' : item_in_cart, 'item_count_in_cart' : item_count_in_cart})
+    return render(request, 'store/customer_address.html', {'addressForm': addressForm, 'item_in_cart' : item_in_cart, 'item_count_in_cart' : item_count_in_cart})
     
     
     
@@ -360,7 +358,6 @@ def payment_success_view(request):
     #Delete cookies after order placed
     customer = models.Customer.objects.get(user_id=request.user.id)
     items = None
-    email = None
     phone = None
     address = None
     if 'item_ids' in request.COOKIES:
@@ -369,20 +366,18 @@ def payment_success_view(request):
             item_id_in_cart = item_ids.split('|')
             items = models.Item.objects.all().filter(id__in=item_id_in_cart)
             
-    if 'email' in request.COOKIES:
-        email = request.COOKIES['email']
+
     if 'phone' in request.COOKIES:
         phone = request.COOKIES['phone']
     if 'address' in request.COOKIES:
         address = request.COOKIES['address']
         
     for item in items:
-        models.Order.objects.get_or_create(customer=customer, item=item, email=email, phone=phone, address=address, status='Pending')
+        models.Order.objects.get_or_create(customer=customer, item=item, phone=phone, address=address, status='Pending')
     
     #delete cookies after order placed
     response = render(request, 'store/payment_success.html')
     response.delete_cookie('item_ids')
-    response.delete_cookie('email')
     response.delete_cookie('phone')
     response.delete_cookie('address')
     return response

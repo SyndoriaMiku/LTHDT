@@ -88,13 +88,13 @@ select{
 	color:red;
 }
 </style>
-{%if product_in_cart%}
+{%if item_in_cart%}
 <form method="post">
   {% csrf_token %}
 <ul class="form-style-1">
     <li>
         <label>Mobile <span class="required">*</span></label>
-        {% render_field addressForm.Mobile class="field-long" placeholder="MPhone" %}
+        {% render_field addressForm.Phone class="field-long" placeholder="Phone" %}
     </li>
 
     <li>

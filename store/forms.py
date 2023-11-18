@@ -21,7 +21,6 @@ class ItemForm(forms.ModelForm):
         fields=['name', 'number', 'image', 'description', 'category','price']
         
 class AddressForm(forms.Form):
-    Email = forms.EmailField()
     Phone = forms.CharField();
     Address = forms.CharField(max_length=500)
     
