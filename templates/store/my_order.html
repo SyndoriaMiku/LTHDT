@@ -163,7 +163,7 @@ p {
 <div class="container">
     <header class="card-header" style="text-align:center; font-size: 21px"> My Orders / Tracking </header>
 
-    {% for products,order in data %}
+    {% for items,order in data %}
 
     
 
@@ -172,11 +172,11 @@ p {
             <ul class="row" style="margin-left:20px;margin-top:20px;">
                 <li class="col-md-4">
                   <figure class="itemside mb-3">
-                    {%for product in products%}
-                      <div class="aside"><img src="{% static product.product_image.url %}" class="img-sm border"></div>
+                    {%for item in items%}
+                      <div class="aside"><img src="{% static item.image.url %}" class="img-sm border"></div>
                       <figcaption class="info align-self-center">
 
-                          <p class="title"><strong>Name : </strong>{{product.name}} <br> <strong>Description : </strong>{{product.description}} <br> <strong>Price : </strong>${{product.price}}</p> 
+                          <p class="title"><strong>Name : </strong>{{item.name}} <br> <strong>Description : </strong>{{item.description}} <br> <strong>Price : </strong>${{item.price}}</p> 
 
                       </figcaption>
 
@@ -200,7 +200,7 @@ p {
                     
                     
                     </div> <br>
-                    <h4><a style="text-decoration:none;" href="{% url 'download-invoice' order.id product.id  %}" ><button class="btn btn-danger btn-sm">Download Invoice</button></a></h4>
+                    
                 </li>
                 {%endfor%}
             </ul>

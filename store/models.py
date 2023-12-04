@@ -39,7 +39,7 @@ class Order(models.Model):
     
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
-    address = models.CharField(max_length=200)
+    address = models.CharField(max_length=200, default="Take at store")
     phone = models.CharField(max_length=50)
     date = models.DateField(auto_now_add=True, null=True)
     status = models.CharField(max_length=50, choices=STATUS)

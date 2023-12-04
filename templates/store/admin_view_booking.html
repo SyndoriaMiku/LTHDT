@@ -34,13 +34,13 @@
           <th>Customer</th>
           <th>Contact</th>
           <th>Shipping Address</th>
-          <th>Product</th>
+          <th>Item</th>
           <th>Image</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
-      <!-- p for product, c for customer-->
+      <!-- p for item, c for customer-->
       {% for item,customer,order in data %}
       <tr>
         {% for c in customer %}
@@ -51,7 +51,7 @@
         {% endfor %}
         {% for p in item %}
         <td> {{p.name}}</td>
-        <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
+        <td> <img src="{% static p.image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
         <td>{{order.status}}</td>
         <td><a class="btn btn-primary btn-xs" href="{% url 'update-order' order.id  %}"><span class="glyphicon glyphicon-edit"></span></a>
         <a class="btn btn-danger btn-xs" href="{% url 'delete-order' order.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>

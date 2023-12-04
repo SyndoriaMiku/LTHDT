@@ -414,7 +414,7 @@ img {
           <div class="row">
             <div class="el-wrapper">
               <div class="box-up">
-                <img class="img" src="{% static p.image.url %}" alt="product pic" height="300px" width="300px">
+                <img class="img" src="{% static p.image.url %}" alt="product pic" height="430px" width="295px">
                 <div class="img-info">
                   <div class="info-inner">
                     <span style="background-color:#3e454c; color:fbfbfb;"class="p-company">{{p.name}}</span>
@@ -431,7 +431,7 @@ img {
 
                 <a class="cart" href="{% url 'add-to-cart' p.id  %}">
                   <span class="price">{{p.price}} VND</span>
-                  <span class="add-to-cart">
+                  <span class="add-to-cart" style="align-items: right;">
                     <span class="txt"><i class="fa fa-shopping-cart"></i> Add To Cart</span>
                   </span>
                 </a>
@@ -451,7 +451,7 @@ img {
 {% endif %}
   {% endfor %}
 </div>
-<!-- products data end -->
+<!-- s data end -->
 {%else%}
 <h3 style="text-align:center; color:#3E454C;">No Search Found</h3>
 {%endif%}

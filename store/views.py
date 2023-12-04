@@ -15,12 +15,12 @@ def home_view(request):
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
         counter = item_ids.split('|')
-        item_in_cart = len(set(counter))
+        item_count_in_cart = len(set(counter))
     else:
-        item_in_cart = 0
+        item_count_in_cart = 0
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return render(request, 'store/index.html', {'items' :items, 'item_in_cart' : item_in_cart})
+    return render(request, 'store/index.html', {'items' :items, 'item_count_in_cart' : item_count_in_cart})
 
 def admin_view(request):
     if request.user.is_authenticated:
@@ -194,27 +194,27 @@ def search_view(request):
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
         counter = item_ids.split('|')
-        item_in_cart = len(set(counter))
+        item_count_in_cart = len(set(counter))
     else:
-        item_in_cart = 0
+        item_count_in_cart = 0
     word = "Search result for " + query
     
     if request.user.is_authenticated:
-        return render(request, 'store/customer_home.html', {'items': items, 'word': word, 'item_in_cart' : item_in_cart})
-    return render(request, 'store/index.html', {'items': items, 'word': word, 'item_in_cart' : item_in_cart})
+        return render(request, 'store/customer_home.html', {'items': items, 'word': word, 'item_count_in_cart' : item_count_in_cart})
+    return render(request, 'store/index.html', {'items': items, 'word': word, 'item_count_in_cart' : item_count_in_cart})
 
 
 def add_to_cart_view(request, pk):
-    item = models.Item.objects.get(id=pk)
+    items = models.Item.objects.all()
     
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
         counter = item_ids.split('|')
-        item_in_cart = len(set(counter))
+        item_count_in_cart = len(set(counter))
     else:
-        item_in_cart = 1
+        item_count_in_cart = 1
     
-    response = render(request, 'store/index.html', {'item': item, 'item_in_cart' : item_in_cart})
+    response = render(request, 'store/index.html', {'items': items, 'item_count_in_cart' : item_count_in_cart})
     
     # adding item id to cookies
     if 'item_ids' in request.COOKIES:
@@ -228,7 +228,6 @@ def add_to_cart_view(request, pk):
         response.set_cookie('item_ids', pk)
     
     item = models.Item.objects.get(id=pk)
-    messages.info(request, item.name + " added to cart")
     
     return response
 
@@ -238,9 +237,9 @@ def cart_view(request):
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
         counter = item_ids.split('|')
-        item_in_cart = len(set(counter))
+        item_count_in_cart = len(set(counter))
     else:
-        item_in_cart = 0
+        item_count_in_cart = 0
     
     #fetching item details from database with id from cookies
     items = None
@@ -254,42 +253,42 @@ def cart_view(request):
             #check total price
             for item in items:
                 total = total + item.price
-    return render(request, 'store/cart.html', {'items': items, 'total': total, 'item_in_cart' : item_in_cart})
+    return render(request, 'store/cart.html', {'items': items, 'total': total, 'item_count_in_cart' : item_count_in_cart})
 
 def remove_from_cart_view(request, pk):
     #cart counter
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
         counter = item_ids.split('|')
-        item_in_cart = len(set(counter))
+        item_count_in_cart = len(set(counter))
     else:
-        item_in_cart = 0
+        item_count_in_cart = 0
         
-        #removing item id from cookies
-        total=0
-        if 'item_ids' in request.COOKIES:
-            item_ids = request.COOKIES['item_ids']
-            item_id_in_cart = item_ids.split('|')
-            item_id_in_cart = list(set(item_id_in_cart))
-            item_id_in_cart.remove(str(pk))
-            items = models.Item.objects.all().filter(id__in=item_id_in_cart)
+    #removing item id from cookies
+    total=0
+    if 'item_ids' in request.COOKIES:
+        item_ids = request.COOKIES['item_ids']
+        item_id_in_cart = item_ids.split('|')
+        item_id_in_cart = list(set(item_id_in_cart))
+        item_id_in_cart.remove(str(pk))
+        items = models.Item.objects.all().filter(id__in=item_id_in_cart)
+        
+        #adjust total price after removing item
+        for item in items:
+            total = total + item.price
             
-            #adjust total price after removing item
-            for item in items:
-                total = total + item.price
-                
-            #update cookies after removing item
-            value=""
-            for i in range(len(item_id_in_cart)):
-                if i == 0:
-                    value = value + item_id_in_cart[0]
-                else:
-                    value = value + "|" + item_id_in_cart[i]
-            response = render(request, 'store/cart.html', {'items': items, 'total': total, 'item_in_cart' : item_in_cart})
-            if value == "":
-                response.delete_cookie('item_ids')
-            response.set_cookie('item_ids', value)
-            return response
+        #update cookies after removing item
+        value=""
+        for i in range(len(item_id_in_cart)):
+            if i == 0:
+                value = value + item_id_in_cart[0]
+            else:
+                value = value + "|" + item_id_in_cart[i]
+        response = render(request, 'store/cart.html', {'items': items, 'total': total, 'item_count_in_cart' : item_count_in_cart})
+        if value == "":
+            response.delete_cookie('item_ids')
+        response.set_cookie('item_ids', value)
+        return response
 
 #----------------------------------------
 #-----------Customer View----------------
@@ -302,21 +301,21 @@ def customer_home_view(request):
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
         counter = item_ids.split('|')
-        item_in_cart = len(set(counter))
+        item_count_in_cart = len(set(counter))
     else:
-        item_in_cart = 0
-    return render(request, 'store/customer_home.html', {'items': items, 'item_in_cart' : item_in_cart})
+        item_count_in_cart = 0
+    return render(request, 'store/customer_home.html', {'items': items, 'item_count_in_cart' : item_count_in_cart})
 
 
 #Shipments address
 @login_required(login_url='customerlogin')
 def customer_address_view(request):
     #checking cart before showing address
-    item_in_cart = False
+    item_count_in_cart = False
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
         if item_ids != "":
-            item_in_cart = True
+            item_count_in_cart = True
     #counter in cart
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
@@ -346,7 +345,7 @@ def customer_address_view(request):
             response.set_cookie('phone', phone)
             response.set_cookie('address', address)
             return response
-    return render(request, 'store/customer_address.html', {'addressForm': addressForm, 'item_in_cart' : item_in_cart, 'item_count_in_cart' : item_count_in_cart})
+    return render(request, 'store/customer_address.html', {'addressForm': addressForm, 'item_count_in_cart' : item_count_in_cart, 'item_count_in_cart' : item_count_in_cart})
     
     
     

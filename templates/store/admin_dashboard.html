@@ -18,13 +18,13 @@
             <th>Customer</th>
             <th>Contact</th>
             <th>Shipment Address</th>
-            <th>Product</th>
+            <th>Item</th>
             <th>Image</th>
             <th>Status</th>
 
           </tr>
         </thead>
-        {% for product,customer,order in data %}
+        {% for item,customer,order in data %}
         <tr>
           {% for c in customer %}
           <td> {{c.get_name}}</td>
@@ -32,9 +32,9 @@
           <td>{{order.address}}</td>
 
           {% endfor %}
-          {% for p in product %}
+          {% for p in item %}
           <td> {{p.name}}</td>
-          <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
+          <td> <img src="{% static p.image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
 
           {% if order.status == 'Pending'%}
           <td> <span class="label label-info">{{order.status}}</span></td>
