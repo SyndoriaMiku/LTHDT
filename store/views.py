@@ -311,11 +311,11 @@ def customer_home_view(request):
 @login_required(login_url='customerlogin')
 def customer_address_view(request):
     #checking cart before showing address
-    item_count_in_cart = False
+    item_in_cart = False
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
         if item_ids != "":
-            item_count_in_cart = True
+            item_in_cart = True
     #counter in cart
     if 'item_ids' in request.COOKIES:
         item_ids = request.COOKIES['item_ids']
@@ -393,35 +393,3 @@ def my_orders_view(request):
         ordered_items.append(ordered_item)
 
     return render(request, 'store/my_orders.html', {'data': zip(ordered_items, orders)})
-
-
-@login_required(login_url='customerlogin')
-@user_passes_test(is_customer)
-def my_profile_view(request):
-    customer = models.Customer.objects.get(user_id=request.user.id)
-    return render(request, 'store/my_profile.html', {'customer': customer})
-
-@login_required(login_url='customerlogin')
-@user_passes_test(is_customer)
-def edit_profile_view(request):
-    customer = models.Customer.objects.get(user_id=request.user.id)
-    user = models.User.objects.get(id=customer.user_id)
-    userForm = forms.CustomerUserForm(instance=user)
-    customerForm = forms.CustomerForm(instance=customer)
-    mydict = {'userForm': userForm,'customerForm': customerForm}
-    if request.method == 'POST':
-        userForm = forms.CustomerUserForm(request.POST, instance=user)
-        customerForm = forms.CustomerForm(request.POST, request.FILES, instance=customer)
-        if userForm.is_valid() and customerForm.is_valid():
-            userForm.save()
-            user.set_password(user.password)
-            user.save()
-            customerForm.save()
-        return HttpResponseRedirect('my-profile')
-    return render(request, 'store/edit_profile.html', context=mydict)
-
-
-
-
-
-

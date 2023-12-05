@@ -88,7 +88,7 @@ select{
 	color:red;
 }
 </style>
-{%if item_in_cart%}
+{%if item_count_in_cart != 0%}
 <form method="post">
   {% csrf_token %}
 <ul class="form-style-1">
